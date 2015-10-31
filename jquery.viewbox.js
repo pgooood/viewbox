@@ -22,6 +22,7 @@
 		,$container = $(options.template)
 		,$loader = $(options.loader)
 		,state = false
+		,locked = false
 		,$current;
 		
 	$('body').get(0).insertAdjacentHTML('afterbegin','<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="viewbox-sprite" style="display:none">\
@@ -116,6 +117,7 @@
 	
 	
 	$links.click(function(){
+		if(locked) return;
 		$e = $(this);
 		set('header',options.setTitle && $e.attr('title') ? $e.attr('title') : '');
 		if(isImage($e.attr('href'))){
@@ -154,7 +156,7 @@
 						w = w * windowHeight / h;
 						h = windowHeight;
 					};
-					
+					locked = true;
 					$body.animate(
 						{
 							'margin-left': -(w + wOffset)/2 + options.margin
@@ -170,6 +172,7 @@
 						,options.resizeDuration
 						,function(){
 							$content.append($img);
+							locked = false;
 						}
 					);
 				},isImageLoaded($img) ? 0 : 200);
