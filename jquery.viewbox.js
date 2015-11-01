@@ -1,3 +1,7 @@
+/**
+ * ViewBox
+ * @author Pavel Khoroshkov aka pgood
+ */
 (function($){$.fn.viewbox = function(options){
 	
 	if(typeof(options) === 'undefined')
