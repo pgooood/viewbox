@@ -7,6 +7,13 @@
 	<title>ViewBox</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../viewbox.css">
+	<style>
+		pre.prettyprint.prettyprinted{
+			padding: 10px 20px;
+			border: 1px solid #ccc;
+			margin:0 0 40px;
+		}
+	</style>
 	<!--[if lt IE 9]>
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -41,14 +48,59 @@
 					</a>
 				</div>
 			</div>
-			<a href="images/i5.jpg" class="thumbnail-2">
+			<p><a href="images/i5.jpg" class="thumbnail-2">
 				<img src="images/i5-thumb.jpg" alt="" class="img-responsive">
-			</a>
+			</a></p>
+			<p>&nbsp;</p>
+			
+			<p>Start by including the ViewBox CSS and Javascript</p>
+			<pre class="prettyprint">
+&lt;link rel="stylesheet" href="viewbox.css"&gt;
+&lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script src="jquery.viewbox.min.js"&gt;&lt;/script&gt;</pre>
+			
+			<h2>HTML Example</h2>
+			<p>Optional: Add a title attribute if you want to show a caption.</p>
+			<pre class="prettyprint">
+&lt;a href="images/i1.jpg" class="image-link"&gt;
+	&lt;img src="images/i1-thumb.jpg" alt=""&gt;
+&lt;/a&gt;
+&lt;a href="images/i2.jpg" class="image-link" title="Image Title"&gt;
+	&lt;img src="images/i2-thumb.jpg" alt=""&gt;
+&lt;/a&gt;
+&lt;a href="images/i3.jpg" class="image-link"&gt;
+	&lt;img src="images/i3-thumb.jpg" alt=""&gt;
+&lt;/a&gt;</pre>
+			
+			<h2>Initializing ViewBox</h2>
+			<p>Apply <code>viewbox()</code> method to a set of image links.</p>
+			<pre class="prettyprint">
+$(function(){
+	$('.image-link').viewbox();
+});</pre>
+			
+			<h2>Options</h2>
+			<p>These options are default.</p>
+			<pre class="prettyprint">
+$(function(){
+	$('.image-link').viewbox({
+		setTitle: true,
+		margin: 20,
+		resizeDuration: 300,
+		openDuration: 200,
+		closeDuration: 200,
+		closeButton: true,
+		navButtons: true,
+		closeOnSideClick: true,
+		nextOnContentClick: true
+	});
+});</pre>
 		</main>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<script src="../jquery.viewbox.js"></script>
+	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+	<script src="../jquery.viewbox.min.js"></script>
 	<script>
 		$(function(){
 			$('.thumbnail').viewbox();

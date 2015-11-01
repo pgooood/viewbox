@@ -16,11 +16,13 @@ $(function(){
 	<img src="images/i3.jpg" alt="">
 </a>
 ```
-Some options
+Options
+-------
+These options are default.
 ```js
 $(function(){
 	$('.thumbnail').viewbox({
-		setTitle: true
+		setTitle: true //add caption if link has title attribute
 		,margin: 20
 		,resizeDuration: 300
 		,openDuration: 200
@@ -32,3 +34,5 @@ $(function(){
 	});
 });
 ```
+## License
+Copyright (c) 2015 Pavel Khoroshkov. Licensed under the [MIT license](https://github.com/pgooood/viewbox/blob/master/LICENSE).
