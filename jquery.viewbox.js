@@ -13,7 +13,6 @@
 		,closeDuration: 200
 		,closeButton: true
 		,navButtons: true
-		,navButtons: true
 		,closeOnSideClick: true
 		,nextOnContentClick: true
 	},options);
