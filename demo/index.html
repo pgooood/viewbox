@@ -59,7 +59,7 @@
 &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"&gt;&lt;/script&gt;
 &lt;script src="jquery.viewbox.min.js"&gt;&lt;/script&gt;</pre>
 			
-			<h2>HTML Example</h2>
+			<h2>Viewbox as Image Viewer</h2>
 			<p>Optional: Add a title attribute if you want to show a caption.</p>
 			<pre class="prettyprint">
 &lt;a href="images/i1.jpg" class="image-link"&gt;
@@ -72,13 +72,31 @@
 	&lt;img src="images/i3-thumb.jpg" alt=""&gt;
 &lt;/a&gt;</pre>
 			
-			<h2>Initializing ViewBox</h2>
 			<p>Apply <code>viewbox()</code> method to a set of image links.</p>
 			<pre class="prettyprint">
 $(function(){
 	$('.image-link').viewbox();
 });</pre>
-			
+			<h2>Viewbox and Custom HTML Content</h2>
+			<p><a href="#popup" class="popup-link">Open popup window</a></p>
+			<div style="display:none;">
+				<div id="popup" style="min-width:300px; min-height:300px;">
+					<h3>Popup content</h3>
+					<p>Some text for popup window.</p>
+				</div>
+			</div>
+			<pre class="prettyprint">
+&lt;p&gt;&lt;a href="#popup" class="popup-link">Open popup window&lt;/a&gt;&lt;/p&gt;
+&lt;div style="display:none;"&gt;
+	&lt;div id="popup"&gt;
+		&lt;h3&gt;Popup content&lt;/h3&gt;
+		&lt;p&gt;Some text for popup window.&lt;/p&gt;
+	&lt;/div&gt;
+&lt;/diva&gt;</pre>
+			<pre class="prettyprint">
+$(function(){
+	$('.popup-link').viewbox();
+});</pre>
 			<h2>Options</h2>
 			<p>These options are default.</p>
 			<pre class="prettyprint">
@@ -105,6 +123,7 @@ $(function(){
 		$(function(){
 			$('.thumbnail').viewbox();
 			$('.thumbnail-2').viewbox();
+			$('.popup-link').viewbox({width:500});
 		});
 	</script>
 </body>

@@ -12,7 +12,7 @@
 		,loader: '<div class="loader"><div class="spinner"><div class="double-bounce1"></div><div class="double-bounce2"></div></div></div>'
 		,setTitle: true
 		,margin: 20
-		,resizeDuration: 300
+		,resizeDuration: 400
 		,openDuration: 200
 		,closeDuration: 200
 		,closeButton: true
@@ -26,7 +26,8 @@
 		,$loader = $(options.loader)
 		,state = false
 		,locked = false
-		,$current;
+		,$current
+		,onClose;
 		
 	$('body').get(0).insertAdjacentHTML('afterbegin','<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="viewbox-sprite" style="display:none">\
 			<symbol id="viewbox-close-icon" viewBox="0 0 50 50"><path d="M37.304 11.282l1.414 1.414-26.022 26.02-1.414-1.413z"/><path d="M12.696 11.282l26.022 26.02-1.414 1.415-26.022-26.02z"/></symbol>\
@@ -34,13 +35,18 @@
 			<symbol id="viewbox-next-icon" viewBox="0 0 50 50"><path d="M22.7 34.7l-1.4-1.4 8.3-8.3-8.3-8.3 1.4-1.4 9.7 9.7z"/></symbol>\
 		</svg>');
 	
-	function show(){
+	function show(width,height){
 		if(!state){
 			$('body').append($container);
 			$container.fadeIn(options.openDuration);
 			state = true;
 		};
-		var $body = get('body');
+		var $body = get('body')
+			,$content = get('content');
+		if(width)
+			$content.width(width);
+		if(height)
+			$content.height(height);
 		$body.css({
 			'margin-left': -$body.width()/2
 			,'margin-top': -$body.height()/2
@@ -51,6 +57,10 @@
 		if(state){
 			$container.fadeOut(options.closeDuration,function(){
 				$container.detach();
+				if(typeof(onClose) == 'function'){
+					onClose();
+					onClose = null;
+				}
 			});
 			state = false;
 		};
@@ -99,9 +109,13 @@
 		return href.match(/(png|jpg|jpeg|gif)$/i);
 	};
 	
+	function isAnchor(href){
+		return href.match(/^#.+$/i) && $(href).length;
+	}
+	
 	function isImageLoaded($img){
 		return $img.get(0).complete;
-	}
+	};
 	
 	function loader(state){
 		if(state)
@@ -121,10 +135,11 @@
 	
 	$links.click(function(){
 		if(locked) return;
-		$e = $(this);
+		var $e = $(this)
+			,href =$e.attr('href');
 		set('header',options.setTitle && $e.attr('title') ? $e.attr('title') : '');
-		if(isImage($e.attr('href'))){
-			var $img = $('<img class="viewbox-image" alt="">').attr('src',$e.attr('href'))
+		if(isImage(href)){
+			var $img = $('<img class="viewbox-image" alt="">').attr('src',href)
 			$current = $e;
 			set('content','');
 			show();
@@ -179,7 +194,17 @@
 						}
 					);
 				},isImageLoaded($img) ? 0 : 200);
-		}
+		}else if(isAnchor(href)){
+			var $ePlaceholder = $('<div class="viewbox-content-placeholder"></div>')
+				,$eContent = $(href).replaceWith($ePlaceholder);
+				onClose = function(){
+				$ePlaceholder.replaceWith($eContent);
+			};
+			set('content','');
+			get('content').append($eContent);
+			//set('footer','<button type="butoon" class="btn btn-default">Close</button>');
+			show('auto','auto');
+		};
 		return false;
 	});
 	
