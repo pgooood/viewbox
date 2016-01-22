@@ -83,6 +83,7 @@ $(function(){
 				<div id="popup" style="min-width:300px; min-height:300px;">
 					<h3>Popup content</h3>
 					<p>Some text for popup window.</p>
+					<p><button type="button" class="btn btn-default close-button">Close</button></a></p>
 				</div>
 			</div>
 			<pre class="prettyprint">
@@ -118,12 +119,15 @@ $(function(){
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-	<script src="../jquery.viewbox.min.js"></script>
+	<script src="../jquery.viewbox.js"></script>
 	<script>
 		$(function(){
 			$('.thumbnail').viewbox();
 			$('.thumbnail-2').viewbox();
-			$('.popup-link').viewbox({width:500});
+			var vb = $('.popup-link').viewbox({width:500});
+			$('.close-button').click(function(){
+				vb.trigger('viewbox.close');
+			});
 		});
 	</script>
 </body>

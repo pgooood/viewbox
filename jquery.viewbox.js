@@ -28,6 +28,10 @@
 		,locked = false
 		,$current
 		,onClose;
+	
+	$container.bind('viewbox.close',function(){
+		hide();
+	});
 		
 	$('body').get(0).insertAdjacentHTML('afterbegin','<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="viewbox-sprite" style="display:none">\
 			<symbol id="viewbox-close-icon" viewBox="0 0 50 50"><path d="M37.304 11.282l1.414 1.414-26.022 26.02-1.414-1.413z"/><path d="M12.696 11.282l26.022 26.02-1.414 1.415-26.022-26.02z"/></symbol>\
@@ -196,9 +200,11 @@
 				},isImageLoaded($img) ? 0 : 200);
 		}else if(isAnchor(href)){
 			var $ePlaceholder = $('<div class="viewbox-content-placeholder"></div>')
-				,$eContent = $(href).replaceWith($ePlaceholder);
-				onClose = function(){
-				$ePlaceholder.replaceWith($eContent);
+				,$eContent = $(href);
+			$eContent.before($ePlaceholder);
+			onClose = function(){
+				$ePlaceholder.before($eContent);
+				$ePlaceholder.detach();
 			};
 			set('content','');
 			get('content').append($eContent);
@@ -233,6 +239,6 @@
 		$container.click(hide);
 	};
 	
-	return this;
+	return $container;
 	
 }}(jQuery));
