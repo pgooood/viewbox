@@ -75,12 +75,18 @@ Custom events
 There are couple of custom events you can use to control Viewbox. To trigger these custom events, simply target the object created by the plugin.
 
 **viewbox.open**
+
 Opens Viewbox (if it is not already opened)
+
 Example: `vb.trigger('viewbox.open',[index]);`
+
 index - index of item to show (0 default)
 
+
 **viewbox.close**
+
 Closes Viewbox (if it is not already closed)
+
 Example: `vb.trigger('viewbox.close');` 
 
 ## License
