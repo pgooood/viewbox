@@ -38,10 +38,10 @@
 <body>
 	<div class="container">
 		<header class="page-header">
-			<h1>ViewBox Demo</h1>
+			<h1><span class="glyphicon glyphicon-picture"></span> ViewBox Demo</h1>
 		</header>
 		<main>
-			<p>Viewbox is a jQuery plugin for displaying images and other HTML content. <a href="https://github.com/pgooood/viewbox" target="_blank">Download on GitHub</a></p>
+			<p>Viewbox is a jQuery plugin for displaying images and other HTML content. &nbsp; <a href="https://github.com/pgooood/viewbox" target="_blank"><span class="glyphicon glyphicon-cloud-download"></span> Download on GitHub</a></p>
 			<div class="row">
 				<div class="col-xs-6 col-md-3">
 					<a href="images/i1.jpg" class="thumbnail" title="San Francisco">
@@ -116,6 +116,8 @@ $(function(){
 			</div>
 			<pre class="prettyprint lang-html">
 &lt;p&gt;&lt;a href="#popup" class="popup-link">Open popup window&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;button type="button" class="popup-open-button">Open popup window&lt;/button&gt;&lt;/p&gt;
+
 &lt;!-- Use invisible wraper to hide popup window content --&gt;
 &lt;div style="display:none;"&gt;
 	&lt;div id="popup"&gt;
@@ -143,8 +145,8 @@ $(function(){
 		vb.trigger('viewbox.open');
 	});
 });</pre>
-			<h3>Example</h3>
-			<p><a href="#popup" class="popup-link">Open popup window</a></p>
+			<h3>Demo</h3>
+			<p><a href="#popup" class="popup-link"><span class="glyphicon glyphicon-info-sign"></span> Open popup window</a></p>
 			<p><button type="button" class="btn btn-default popup-open-button">Open popup window</button></p>
 			<p>&nbsp;</p>
 			
