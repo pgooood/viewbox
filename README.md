@@ -76,12 +76,12 @@ There are couple of custom events you can use to control Viewbox. To trigger the
 
 **viewbox.open**
 Opens Viewbox (if it is not already opened)
-Example: vb.trigger('viewbox.open',[index]);
+Example: `vb.trigger('viewbox.open',[index]);`
 index - index of item to show (0 default)
 
 **viewbox.close**
 Closes Viewbox (if it is not already closed)
-Example: vb.trigger('viewbox.close'); 
+Example: `vb.trigger('viewbox.close');` 
 
 ## License
 Copyright (c) 2015 Pavel Khoroshkov. Licensed under the [MIT license](https://github.com/pgooood/viewbox/blob/master/LICENSE).
