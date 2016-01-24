@@ -13,6 +13,22 @@
 			border: 1px solid #ccc;
 			margin:0 0 40px;
 		}
+		dl{
+			display: block;
+			margin: 5px 0 20px;
+			overflow: hidden;
+		}
+		dl > dt{
+			display: block;
+			clear:left;
+			float:left;
+			min-width: 160px;
+		}
+		dl > dd{
+			display: block;
+			float:left;
+			margin: 0 0 20px 10px;
+		}
 	</style>
 	<!--[if lt IE 9]>
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -25,7 +41,7 @@
 			<h1>ViewBox Demo</h1>
 		</header>
 		<main>
-			<p>Viewbox is a jQuery plugin for displaying images. <a href="https://github.com/pgooood/viewbox" target="_blank">Download on GitHub</a></p>
+			<p>Viewbox is a jQuery plugin for displaying images and other HTML content. <a href="https://github.com/pgooood/viewbox" target="_blank">Download on GitHub</a></p>
 			<div class="row">
 				<div class="col-xs-6 col-md-3">
 					<a href="images/i1.jpg" class="thumbnail">
@@ -78,26 +94,60 @@ $(function(){
 	$('.image-link').viewbox();
 });</pre>
 			<h2>Viewbox and Custom HTML Content</h2>
-			<p><a href="#popup" class="popup-link">Open popup window</a></p>
+			<p>Make an anchor link which points to content element.</p>
 			<div style="display:none;">
 				<div id="popup" style="min-width:300px; min-height:300px;">
-					<h3>Popup content</h3>
-					<p>Some text for popup window.</p>
-					<p><button type="button" class="btn btn-default close-button">Close</button></a></p>
+					<h3>Popup Window</h3>
+					<p><button type="button" class="btn btn-default close-button">Close</button></p>
+				</div>
+				<div class="popup-steps" style="min-width:300px; min-height:250px;">
+					<h3>Step 1</h3>
+					<p>First step content</p>
+					<p><button type="button" class="btn btn-default next-button">Next</button></p>
+				</div>
+				<div class="popup-steps" style="min-width:300px; min-height:250px;">
+					<h3>Step 2</h3>
+					<p>Second step content</p>
+					<p>
+						<button type="button" class="btn btn-default prev-button">Prev</button>
+						<button type="button" class="btn btn-default ok-button">Ok</button>
+					</p>
 				</div>
 			</div>
-			<pre class="prettyprint">
+			<pre class="prettyprint lang-html">
 &lt;p&gt;&lt;a href="#popup" class="popup-link">Open popup window&lt;/a&gt;&lt;/p&gt;
+&lt;!-- Use invisible wraper to hide popup window content --&gt;
 &lt;div style="display:none;"&gt;
 	&lt;div id="popup"&gt;
 		&lt;h3&gt;Popup content&lt;/h3&gt;
 		&lt;p&gt;Some text for popup window.&lt;/p&gt;
+		&lt;p&gt;&lt;button type="button" class="close-button"&gt;Close&lt;/button&gt;&lt;/p&gt;
 	&lt;/div&gt;
-&lt;/diva&gt;</pre>
+&lt;/div&gt;</pre>
+			<p>Apply <code>viewbox()</code> method to an anchor link which points to content element.</p>
 			<pre class="prettyprint">
 $(function(){
-	$('.popup-link').viewbox();
+	var vb = $('.popup-link').viewbox();
+	
+	//optional: custom close button
+	$('.close-button').click(function(){
+		vb.trigger('viewbox.close');
+	});
 });</pre>
+			<p>Or apply <code>viewbox()</code> method to a content element.</p>
+			<pre class="prettyprint">
+$(function(){
+	var vb = $('#popup').viewbox();
+	
+	$('.popup-open-button').click(function(){
+		vb.trigger('viewbox.open');
+	});
+});</pre>
+			<h3>Example</h3>
+			<p><a href="#popup" class="popup-link">Open popup window</a></p>
+			<p><button type="button" class="btn btn-default popup-open-button">Open popup window</button></p>
+			<p>&nbsp;</p>
+			
 			<h2>Options</h2>
 			<p>These options are default.</p>
 			<pre class="prettyprint">
@@ -111,9 +161,21 @@ $(function(){
 		closeButton: true,
 		navButtons: true,
 		closeOnSideClick: true,
-		nextOnContentClick: true
+		nextOnContentClick: false
 	});
 });</pre>
+			
+			<h2>Custom events</h2>
+			<p>There are couple of custom events you can use to control Viewbox. To trigger these custom events, simply target the object created by the plugin.</p>
+			<dl>
+				<dt>viewbox.open</dt>
+				<dd>Opens Viewbox (if it is not already opened)<br>
+					Example: <code>vb.trigger('viewbox.open',[<em>index</em>]);</code><br>
+					<em>index</em> - index of item to show (0 default)</dd>
+				<dt>viewbox.close</dt>
+				<dd>Closes Viewbox (if it is not already closed)<br>
+					Example: <code>vb.trigger('viewbox.close');</code></dd>
+			</dl>
 		</main>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -122,12 +184,38 @@ $(function(){
 	<script src="../jquery.viewbox.min.js"></script>
 	<script>
 		$(function(){
+			
 			$('.thumbnail').viewbox();
 			$('.thumbnail-2').viewbox();
-			var vb = $('.popup-link').viewbox({width:500});
-			$('.close-button').click(function(){
-				vb.trigger('viewbox.close');
-			});
+			
+			(function(){
+				var vb = $('.popup-link').viewbox();
+				$('.popup-open-button').click(function(){
+					vb.trigger('viewbox.open');
+				});
+				$('.close-button').click(function(){
+					vb.trigger('viewbox.close');
+				});
+			})();
+			
+			(function(){
+				var vb = $('.popup-steps').viewbox({navButtons:false});
+				
+				$('.steps-button').click(function(){
+					vb.trigger('viewbox.open',[0]);
+				});
+				
+				$('.next-button').click(function(){
+					vb.trigger('viewbox.open',[1]);
+				});
+				$('.prev-button').click(function(){
+					vb.trigger('viewbox.open',[0]);
+				});
+				$('.ok-button').click(function(){
+					vb.trigger('viewbox.close');
+				});
+			})();
+			
 		});
 	</script>
 </body>
