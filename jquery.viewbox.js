@@ -1,6 +1,7 @@
 /**
  * ViewBox
  * @author Pavel Khoroshkov aka pgood
+ * @link https://github.com/pgooood/viewbox
  */
 (function($){$.fn.viewbox = function(options){
 	
@@ -135,10 +136,11 @@
 	};
 	
 	function addSvgButton(name){
-		var $e = $('<div class="viewbox-button-default viewbox-button-'+name+'"></div>');
+		var $e = $('<div class="viewbox-button-default viewbox-button-'+name+'"></div>')
+			,href = window.location.pathname+window.location.search+'#viewbox-'+name+'-icon';
 		$e.appendTo($container)
 			.get(0)
-			.insertAdjacentHTML('afterbegin','<svg><use xlink:href="#viewbox-'+name+'-icon"/></svg>');
+			.insertAdjacentHTML('afterbegin','<svg><use xlink:href="'+href+'"/></svg>');
 		return $e;
 	};
 	
