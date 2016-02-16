@@ -20,6 +20,7 @@
 		,navButtons: true
 		,closeOnSideClick: true
 		,nextOnContentClick: false
+		,useGestures: true
 	},options);
 	
 	var $links = $(this)
@@ -229,6 +230,38 @@
 		};
 	};
 	
+	function onSwipe($e,callback){
+  		if(typeof(callback) != 'function')
+			return;
+		var startPos,startTime
+			,threshold = 150
+			,restraint = 100
+			,allowedTime = 300;
+		$e.on('touchstart',function(event){
+			var touch = event.originalEvent.changedTouches[0];
+			startPos = {x:touch.pageX,y:touch.pageY};
+			startTime = new Date().getTime();
+		});
+		$e.on('touchend',function(event){
+			var touch = event.originalEvent.changedTouches[0]
+				,swipedir = 'none'
+				,elapsedTime = new Date().getTime() - startTime
+				,endPos = {x:touch.pageX,y:touch.pageY}
+				,dist = {
+					x:endPos.x - startPos.x
+					,y:endPos.y - startPos.y
+				};	
+			if(elapsedTime <= allowedTime){
+				if(Math.abs(dist.x) >= threshold && Math.abs(dist.y) <= restraint)
+					swipedir = dist.x ? 'left' : 'right';
+				else if (Math.abs(dist.y) >= threshold && Math.abs(dist.x) <= restraint)
+					swipedir = dist.y < 0 ? 'up' : 'down';
+			};
+			callback.call(this,swipedir);
+		});
+	};
+	
+	
 	$container.bind('viewbox.close',function(){
 		closeWindow();
 	});
@@ -276,6 +309,15 @@
 	if(options.closeOnSideClick){
 		$container.click(function(){
 			closeWindow();
+		});
+	};
+	
+	if(options.useGestures && 'ontouchstart' in document.documentElement){
+		onSwipe($container,function(dir){
+			switch(dir){
+				case 'left':next();break;
+				case 'right':prev();break;
+			};
 		});
 	};
 	
