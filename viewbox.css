@@ -78,6 +78,24 @@
 .viewbox-button-prev{
 	left: 10px;
 }
+@media (max-width: 480px) {
+	.viewbox-button-close{
+		top: 0;
+		right: 0;
+	}
+	.viewbox-button-next,
+	.viewbox-button-prev{
+		height: 81px;
+    	width: 81px;
+		margin-top: -40px;
+	}
+	.viewbox-button-next{
+		right:-15px;
+	}
+	.viewbox-button-prev{
+		left:-15px;
+	}
+}
 
 /* loader */
 .viewbox-container .loader{

@@ -253,7 +253,7 @@
 				};	
 			if(elapsedTime <= allowedTime){
 				if(Math.abs(dist.x) >= threshold && Math.abs(dist.y) <= restraint)
-					swipedir = dist.x ? 'left' : 'right';
+					swipedir = dist.x < 0 ? 'left' : 'right';
 				else if (Math.abs(dist.y) >= threshold && Math.abs(dist.x) <= restraint)
 					swipedir = dist.y < 0 ? 'up' : 'down';
 			};

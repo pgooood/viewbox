@@ -66,6 +66,7 @@ $(function(){
 		,navButtons: true
 		,closeOnSideClick: true
 		,nextOnContentClick: false
+		,useGestures: true
 	});
 });
 ```
