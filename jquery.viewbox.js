@@ -1,5 +1,6 @@
 /**
  * ViewBox
+ * @version 0.2
  * @author Pavel Khoroshkov aka pgood
  * @link https://github.com/pgooood/viewbox
  */
@@ -29,11 +30,64 @@
 		,state = false
 		,locked = false
 		,$current
-		,arCloseWindowCallback = [];
+		,arPopupContent = [];
 	
 	if(!$('#viewbox-sprite').length)	
 		$('body').get(0).insertAdjacentHTML('afterbegin','<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="viewbox-sprite" style="display:none"><symbol id="viewbox-close-icon" viewBox="0 0 50 50"><path d="M37.304 11.282l1.414 1.414-26.022 26.02-1.414-1.413z"/><path d="M12.696 11.282l26.022 26.02-1.414 1.415-26.022-26.02z"/></symbol><symbol id="viewbox-prev-icon" viewBox="0 0 50 50"><path d="M27.3 34.7L17.6 25l9.7-9.7 1.4 1.4-8.3 8.3 8.3 8.3z"/></symbol><symbol id="viewbox-next-icon" viewBox="0 0 50 50"><path d="M22.7 34.7l-1.4-1.4 8.3-8.3-8.3-8.3 1.4-1.4 9.7 9.7z"/></symbol></svg>');
 	
+	
+	$container.bind('viewbox.open',function(event,target){
+		if(Number.isInteger(target) && $links.length)
+			show($links.eq(target >= 0 && target < $links.length ? target : 0));
+		else if(target && target.tagName)
+			show($(target));
+		else if($links.length)
+			show($links.eq(0));
+	});
+	
+	$container.bind('viewbox.next',function(event){
+		if($links.length <= 1)
+			return;
+		var nextIndex = index() + 1;
+		if(nextIndex >= $links.length)
+			nextIndex = 0;
+		show($links.eq(nextIndex));
+	});
+	
+	$container.bind('viewbox.prev',function(event){
+		if($links.length <= 1)
+			return;
+		var nextIndex = index() - 1;
+		if(nextIndex < 0)
+			nextIndex = $links.length - 1;
+		show($links.eq(nextIndex));
+	});
+	
+	$container.bind('viewbox.close',function(event){
+		if(state){
+			$container.fadeOut(options.closeDuration,function(){
+				state = false;
+			});
+		};
+	});
+	
+	function show($e){
+		if(locked) return;
+		putBackPopupContent();
+		var href = $e.attr('href')
+			,caption = options.setTitle && $e.attr('title') ? $e.attr('title') : '';
+		if(!href){
+			$current = $e;
+			showPopup($e,caption);
+		}else if(isImage(href)){
+			$current = $e;
+			showImage(href,caption);
+		}else if(isAnchor(href)){
+			$current = $e;
+			showPopup(href,caption);
+		};
+	};
+		
 	function openWindow(width,height){
 		var $body = get('body')
 			,$content = get('content')
@@ -60,24 +114,6 @@
 		});
 	};
 	
-	function closeWindow(handler){
-		if(typeof(handler) !== 'undefined'){
-			if(typeof(handler) === 'function')
-				arCloseWindowCallback.push(handler);
-			return;
-		};
-		if(state)
-			$container.fadeOut(options.closeDuration,function(){
-				$container.detach();
-				state = false;
-				var arCallback = [];
-				while(arCloseWindowCallback.length)
-					arCallback.push(arCloseWindowCallback.shift());
-				while(arCallback.length)
-					arCallback.shift()();
-			});
-	};
-	
 	function get(name){
 		return $container.find('.viewbox-'+name);
 	};
@@ -97,24 +133,6 @@
 			});
 		};
 		return index;
-	};
-	
-	function next(){
-		if($links.length <= 1)
-			return;
-		var nextIndex = index() + 1;
-		if(nextIndex >= $links.length)
-			nextIndex = 0;
-		$links.eq(nextIndex).click();
-	};
-	
-	function prev(){
-		if($links.length <= 1)
-			return;
-		var nextIndex = index() - 1;
-		if(nextIndex < 0)
-			nextIndex = $links.length - 1;
-		$links.eq(nextIndex).click();
 	};
 	
 	function isImage(href){
@@ -143,6 +161,31 @@
 			.get(0)
 			.insertAdjacentHTML('afterbegin','<svg><use xlink:href="'+href+'"/></svg>');
 		return $e;
+	};
+	
+	function showPopup(href,caption){
+		var $eContent = $(href)
+			,$ePlaceholder = $('<div class="viewbox-content-placeholder"></div>');
+		$eContent.before($ePlaceholder);
+		if(state)
+			$container.trigger('viewbox.close');
+		set('content','');
+		set('header',caption);
+		get('content').append($eContent);
+		openWindow('auto','auto');
+		arPopupContent.push({
+			placeholder: $ePlaceholder
+			,content: $eContent
+		});
+	};
+	
+	function putBackPopupContent(){
+		var ob;
+		while(arPopupContent.length){
+			ob = arPopupContent.shift();
+			ob.placeholder.before(ob.content);
+			ob.placeholder.detach();
+		}
 	};
 	
 	function showImage(href,caption){
@@ -200,36 +243,6 @@
 			},isImageLoaded($img) ? 0 : 200);
 	};
 	
-	function showPopup(href,caption){
-		var $ePlaceholder = $('<div class="viewbox-content-placeholder"></div>')
-			,$eContent = $(href);
-		$eContent.before($ePlaceholder);
-		closeWindow(function(){
-			$ePlaceholder.before($eContent);
-			$ePlaceholder.detach();
-		});
-		set('content','');
-		set('header',caption);
-		get('content').append($eContent);
-		openWindow('auto','auto');
-	};
-	
-	function show($e){
-		if(locked) return;
-		var href = $e.attr('href')
-			,caption = options.setTitle && $e.attr('title') ? $e.attr('title') : '';
-		if(!href){
-			$current = $e;
-			showPopup($e,caption);
-		}else if(isImage(href)){
-			$current = $e;
-			showImage(href,caption);
-		}else if(isAnchor(href)){
-			$current = $e;
-			showPopup(href,caption);
-		};
-	};
-	
 	function onSwipe($e,callback){
   		if(typeof(callback) != 'function')
 			return;
@@ -261,62 +274,46 @@
 		});
 	};
 	
-	
-	$container.bind('viewbox.close',function(){
-		closeWindow();
-	});
-	
-	$container.bind('viewbox.open',function(event,index){
-		var run = function(){
-			if($links.length)
-				show($links.eq(index >= 0 && index < $links.length ? index : 0));
-		};
-		if(state){
-			closeWindow(run);
-			closeWindow();
-		}else run();
-	});
-	
 	$links.filter('a').click(function(){
-		show($(this));
+		$container.trigger('viewbox.open',[this]);
 		return false;
 	});
 	
 	get('body').click(function(event){
 		event.stopPropagation();
 		if(options.nextOnContentClick)
-			next();
+			$container.trigger('viewbox.next');
 	});
 	
 	if(options.closeButton){
 		addSvgButton('close').click(function(event){
 			event.stopPropagation();
-			closeWindow();
+			$container.trigger('viewbox.close');
 		});
 	};
 	
 	if(options.navButtons && $links.length > 1){
 		addSvgButton('next').click(function(event){
 			event.stopPropagation();
-			next();
+			$container.trigger('viewbox.next');
 		});
 		addSvgButton('prev').click(function(event){
 			event.stopPropagation();
-			prev();
+			$container.trigger('viewbox.prev');
 		});
 	};
 	
 	if(options.closeOnSideClick){
 		$container.click(function(){
-			closeWindow();
+			$container.trigger('viewbox.close');
 		});
 	};
 	
 	if(options.useGestures && 'ontouchstart' in document.documentElement){
 		onSwipe($container,function(dir){
 			switch(dir){
-				case 'left':next();break;
-				case 'right':prev();break;
+				case 'left':$container.trigger('viewbox.next');break;
+				case 'right':$container.trigger('viewbox.prev');break;
 			};
 		});
 	};

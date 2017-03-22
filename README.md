@@ -73,7 +73,7 @@ $(function(){
 
 Custom events
 -------
-There are couple of custom events you can use to control Viewbox. To trigger these custom events, simply target the object created by the plugin.
+There are some of custom events you can use to control Viewbox. To trigger these custom events, simply target the object created by the plugin.
 
 **viewbox.open**
 Opens Viewbox (if it is not already opened). 
@@ -83,6 +83,14 @@ index - index of item to show (0 default)
 **viewbox.close**
 Closes Viewbox (if it is not already closed). 
 Example: `vb.trigger('viewbox.close');`.
+
+**viewbox.next**
+Shows next image in the set.
+Example: `vb.trigger('viewbox.next');`.
+
+**viewbox.prev**
+Shows previous image in the set. 
+Example: `vb.trigger('viewbox.prev');`.
 
 ## License
 Copyright (c) 2015 Pavel Khoroshkov. Licensed under the [MIT license](https://github.com/pgooood/viewbox/blob/master/LICENSE).

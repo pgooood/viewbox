@@ -95,23 +95,10 @@ $(function(){
 });</pre>
 			<h2>Viewbox and Custom HTML Content</h2>
 			<p>Make an anchor link which points to content element.</p>
-			<div style="display:none;">
+			<div>
 				<div id="popup" style="min-width:300px; min-height:300px;">
 					<h3>Popup Window</h3>
 					<p><button type="button" class="btn btn-default close-button">Close</button></p>
-				</div>
-				<div class="popup-steps" style="min-width:300px; min-height:250px;">
-					<h3>Step 1</h3>
-					<p>First step content</p>
-					<p><button type="button" class="btn btn-default next-button">Next</button></p>
-				</div>
-				<div class="popup-steps" style="min-width:300px; min-height:250px;">
-					<h3>Step 2</h3>
-					<p>Second step content</p>
-					<p>
-						<button type="button" class="btn btn-default prev-button">Prev</button>
-						<button type="button" class="btn btn-default ok-button">Ok</button>
-					</p>
 				</div>
 			</div>
 			<pre class="prettyprint lang-html">
@@ -169,15 +156,27 @@ $(function(){
 });</pre>
 			
 			<h2>Custom events</h2>
-			<p>There are couple of custom events you can use to control Viewbox. To trigger these custom events, simply target the object created by the plugin.</p>
+			<p>There are some of custom events you can use to control Viewbox. To trigger these custom events, simply target the object created by the plugin.</p>
 			<dl>
 				<dt>viewbox.open</dt>
 				<dd>Opens Viewbox (if it is not already opened)<br>
-					Example: <code>vb.trigger('viewbox.open',[<em>index</em>]);</code><br>
+					Example: <code>var&nbsp;vb&nbsp;=&nbsp;$('a.viewbox').viewbox();<br>
+						vb.trigger('viewbox.open',[<em>index</em>]);</code><br>
 					<em>index</em> - index of item to show (0 default)</dd>
 				<dt>viewbox.close</dt>
 				<dd>Closes Viewbox (if it is not already closed)<br>
-					Example: <code>vb.trigger('viewbox.close');</code></dd>
+					Example: <code>var&nbsp;vb&nbsp;=&nbsp;$('a.viewbox').viewbox();<br>
+						$('.button-close').click(function(){<br>
+						&nbsp;&nbsp;vb.trigger('viewbox.close');
+						<br>});</code></dd>
+				<dt>viewbox.next</dt>
+				<dd>Shows next image in the set.<br>
+					Example: <code>var&nbsp;vb&nbsp;=&nbsp;$('a.viewbox').viewbox();<br>
+						vb.trigger('viewbox.next');</code></dd>
+				<dt>viewbox.prev</dt>
+				<dd>Shows previous image in the set. <br>
+					Example: <code>var&nbsp;vb&nbsp;=&nbsp;$('a.viewbox').viewbox();<br>
+						vb.trigger('viewbox.prev');</code></dd>
 			</dl>
 		</main>
 	</div>
@@ -190,31 +189,13 @@ $(function(){
 			
 			$('.thumbnail').viewbox();
 			$('.thumbnail-2').viewbox();
-			
+
 			(function(){
 				var vb = $('.popup-link').viewbox();
 				$('.popup-open-button').click(function(){
 					vb.trigger('viewbox.open');
 				});
 				$('.close-button').click(function(){
-					vb.trigger('viewbox.close');
-				});
-			})();
-			
-			(function(){
-				var vb = $('.popup-steps').viewbox({navButtons:false});
-				
-				$('.steps-button').click(function(){
-					vb.trigger('viewbox.open',[0]);
-				});
-				
-				$('.next-button').click(function(){
-					vb.trigger('viewbox.open',[1]);
-				});
-				$('.prev-button').click(function(){
-					vb.trigger('viewbox.open',[0]);
-				});
-				$('.ok-button').click(function(){
 					vb.trigger('viewbox.close');
 				});
 			})();
