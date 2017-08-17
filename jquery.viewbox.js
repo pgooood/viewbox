@@ -1,6 +1,6 @@
 /**
  * ViewBox
- * @version 0.2
+ * @version 0.2.1
  * @author Pavel Khoroshkov aka pgood
  * @link https://github.com/pgooood/viewbox
  */
