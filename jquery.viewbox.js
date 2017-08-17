@@ -136,7 +136,7 @@
 	};
 	
 	function isImage(href){
-		return href.match(/(png|jpg|jpeg|gif)$/i);
+		return href.match(/(png|jpg|jpeg|gif)(\?.*)?$/i);
 	};
 	
 	function isAnchor(href){
