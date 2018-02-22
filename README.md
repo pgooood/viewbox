@@ -1,5 +1,5 @@
 # ViewBox
-Viewbox is a jQuery plugin for displaying images and other HTML content. [Demo page](http://pgood.ru/userfiles/file/viewbox/demo/)
+Viewbox is a jQuery plugin for displaying images and other HTML content. [Demo page](http://pgood.space/userfiles/file/viewbox/demo/)
 ```js
 $(function(){
 	$('.thumbnail').viewbox();
