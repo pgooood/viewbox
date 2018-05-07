@@ -201,6 +201,7 @@
 		var $body = get('body')
 			,counter = 0
 			,$content = get('content')
+			,$header = get('header')
 			,timerId = window.setInterval(function(){
 				if(!isImageLoaded($img) && counter < 1000){
 					counter++;
@@ -212,14 +213,14 @@
 
 				$('body').append($img);
 
-				var w = $img.width()
-					,h = $img.height();
-				get('header').width(w);
+				$header.hide();
 
 				var wOffset = $body.width() - $content.width() + options.margin*2
 					,hOffset = $body.height() - $content.height() + options.margin*2
 					,windowWidth = $(window).width() - wOffset
-					,windowHeight = $(window).height() - hOffset;
+					,windowHeight = $(window).height() - hOffset
+					,w = $img.width()
+					,h = $img.height();
 				$img.detach();
 
 				if(w > windowWidth){
@@ -243,6 +244,7 @@
 					,options.resizeDuration
 					,function(){
 						$content.append($img);
+						$header.show().width(w);
 						locked = false;
 					}
 				);
