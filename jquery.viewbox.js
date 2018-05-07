@@ -1,6 +1,6 @@
 /**
  * ViewBox
- * @version 0.2.1
+ * @version 0.2.2
  * @author Pavel Khoroshkov aka pgood
  * @link https://github.com/pgooood/viewbox
  */
@@ -91,9 +91,12 @@
 	function openWindow(width,height){
 		var $body = get('body')
 			,$content = get('content')
+			,$header = get('header')
 			,w,h;
-		if(width)
+		if(width){
 			$content.width(width);
+			$header.width(width);
+		}
 		if(height)
 			$content.height(height);
 		if(!state){
@@ -208,12 +211,15 @@
 				loader(false);
 
 				$('body').append($img);
+
+				var w = $img.width()
+					,h = $img.height();
+				get('header').width(w);
+
 				var wOffset = $body.width() - $content.width() + options.margin*2
 					,hOffset = $body.height() - $content.height() + options.margin*2
 					,windowWidth = $(window).width() - wOffset
-					,windowHeight = $(window).height() - hOffset
-					,w = $img.width()
-					,h = $img.height();
+					,windowHeight = $(window).height() - hOffset;
 				$img.detach();
 
 				if(w > windowWidth){
