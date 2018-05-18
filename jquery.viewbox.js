@@ -1,6 +1,6 @@
 /**
  * ViewBox
- * @version 0.2.2
+ * @version 0.2.3
  * @author Pavel Khoroshkov aka pgood
  * @link https://github.com/pgooood/viewbox
  */
@@ -196,7 +196,7 @@
 		if(!isImageLoaded($img))
 			loader(true);
 		set('content','');
-		set('header',caption);
+		set('header','');
 		openWindow();
 		var $body = get('body')
 			,counter = 0
@@ -245,6 +245,7 @@
 					,function(){
 						$content.append($img);
 						$header.show().width(w);
+						set('header',caption);
 						locked = false;
 					}
 				);
