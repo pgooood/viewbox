@@ -73,7 +73,17 @@
 	});
 
 	$container.bind('viewbox.fullscreen',function(event){
-		get('content').find('.viewbox-image').get(0).mozRequestFullScreen();
+		var e = get('content').find('.viewbox-image').get(0);
+		if(e){
+			if(e.requestFullscreen) 
+				e.requestFullscreen();
+			else if(e.mozRequestFullScreen)
+				e.mozRequestFullScreen();
+			else if(e.webkitRequestFullscreen)
+				e.webkitRequestFullscreen();
+			else if(e.msRequestFullscreen)
+				e.msRequestFullscreen();
+		}
 	});
 	
 	function show($e){
