@@ -2,11 +2,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>ViewBox</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<link rel="stylesheet" href="../viewbox.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 	<style>
 		pre.prettyprint.prettyprinted{
 			padding: 10px 20px;
@@ -36,36 +36,37 @@
 	<![endif]-->
 </head>
 <body>
-	<div class="container">
-		<header class="page-header">
-			<h1><span class="glyphicon glyphicon-picture"></span> ViewBox Demo</h1>
-		</header>
-		<main>
-			<p>Viewbox is a jQuery plugin for displaying images and other HTML content. &nbsp; <a href="https://github.com/pgooood/viewbox" target="_blank"><span class="glyphicon glyphicon-cloud-download"></span> Download on GitHub</a></p>
-			<div class="row">
-				<div class="col-xs-6 col-md-3">
+	<header class="jumbotron">
+		<div class="container">
+			<h1><i class="far fa-images"></i> ViewBox Demo</h1>
+			<p>Viewbox is a jQuery plugin for displaying images and other HTML content. &nbsp; <a href="https://github.com/pgooood/viewbox" target="_blank"><i class="fab fa-github"></i> Download on GitHub</a></p>
+		</div>
+	</header>
+	<main class="container">
+			<div class="row mb-4">
+				<div class="col-6 col-md-3">
 					<a href="images/i1.jpg" class="thumbnail" title="San Francisco">
-						<img src="images/i1-thumb.jpg" alt="">
+						<img src="images/i1-thumb.jpg" alt="" class="img-fluid">
 					</a>
 				</div>
-				<div class="col-xs-6 col-md-3">
+				<div class="col-6 col-md-3">
 					<a href="images/i2.jpg" class="thumbnail" title="Rotterdam">
-						<img src="images/i2-thumb.jpg" alt="">
+						<img src="images/i2-thumb.jpg" alt="" class="img-fluid">
 					</a>
 				</div>
-				<div class="col-xs-6 col-md-3">
+				<div class="col-6 col-md-3">
 					<a href="images/i3.jpg" class="thumbnail" title="New York">
-						<img src="images/i3-thumb.jpg" alt="">
+						<img src="images/i3-thumb.jpg" alt="" class="img-fluid">
 					</a>
 				</div>
-				<div class="col-xs-6 col-md-3">
+				<div class="col-6 col-md-3">
 					<a href="images/i4.jpg" class="thumbnail" title="Istanbul">
-						<img src="images/i4-thumb.jpg" alt="">
+						<img src="images/i4-thumb.jpg" alt="" class="img-fluid">
 					</a>
 				</div>
 			</div>
 			<p><a href="images/i5.jpg" class="thumbnail-2">
-				<img src="images/i5-thumb.jpg" alt="" class="img-responsive">
+				<img src="images/i5-thumb.jpg" alt="" class="img-fluid">
 			</a></p>
 			<p>&nbsp;</p>
 			
@@ -95,7 +96,7 @@ $(function(){
 });</pre>
 			<h2>Viewbox and Custom HTML Content</h2>
 			<p>Make an anchor link which points to content element.</p>
-			<div>
+			<div hidden>
 				<div id="popup" style="min-width:300px; min-height:300px;">
 					<h3>Popup Window</h3>
 					<p><button type="button" class="btn btn-default close-button">Close</button></p>
@@ -133,7 +134,7 @@ $(function(){
 	});
 });</pre>
 			<h3>Demo</h3>
-			<p><a href="#popup" class="popup-link"><span class="glyphicon glyphicon-info-sign"></span> Open popup window</a></p>
+			<p><a href="#popup" class="popup-link"><i class="fas fa-info-circle"></i> Open popup window</a></p>
 			<p><button type="button" class="btn btn-default popup-open-button">Open popup window</button></p>
 			<p>&nbsp;</p>
 			
@@ -178,10 +179,15 @@ $(function(){
 					Example: <code>var&nbsp;vb&nbsp;=&nbsp;$('a.viewbox').viewbox();<br>
 						vb.trigger('viewbox.prev');</code></dd>
 			</dl>
-		</main>
-	</div>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	</main>
+	<footer class="footer bg-light py-4">
+		<div class="container">
+			<span class="text-muted">© 2018 Pavel Khoroshkov &nbsp; <a href="http://pgood.space/">pgood.space</a></span>
+		</div>
+	</footer>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 	<script src="../jquery.viewbox.min.js"></script>
 	<script>
