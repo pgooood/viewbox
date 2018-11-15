@@ -18,6 +18,7 @@
 		,openDuration: 200
 		,closeDuration: 200
 		,closeButton: true
+		,fullscreenButton: false
 		,navButtons: true
 		,closeOnSideClick: true
 		,nextOnContentClick: false
@@ -33,7 +34,7 @@
 		,arPopupContent = [];
 	
 	if(!$('#viewbox-sprite').length)	
-		$('body').get(0).insertAdjacentHTML('afterbegin','<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="viewbox-sprite" style="display:none"><symbol id="viewbox-close-icon" viewBox="0 0 50 50"><path d="M37.304 11.282l1.414 1.414-26.022 26.02-1.414-1.413z"/><path d="M12.696 11.282l26.022 26.02-1.414 1.415-26.022-26.02z"/></symbol><symbol id="viewbox-prev-icon" viewBox="0 0 50 50"><path d="M27.3 34.7L17.6 25l9.7-9.7 1.4 1.4-8.3 8.3 8.3 8.3z"/></symbol><symbol id="viewbox-next-icon" viewBox="0 0 50 50"><path d="M22.7 34.7l-1.4-1.4 8.3-8.3-8.3-8.3 1.4-1.4 9.7 9.7z"/></symbol></svg>');
+		$('body').get(0).insertAdjacentHTML('afterbegin','<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="viewbox-sprite" style="display:none"><symbol id="viewbox-close-icon" viewBox="0 0 50 50"><path d="M37.304 11.282l1.414 1.414-26.022 26.02-1.414-1.413z"/><path d="M12.696 11.282l26.022 26.02-1.414 1.415-26.022-26.02z"/></symbol><symbol id="viewbox-prev-icon" viewBox="0 0 50 50"><path d="M27.3 34.7L17.6 25l9.7-9.7 1.4 1.4-8.3 8.3 8.3 8.3z"/></symbol><symbol id="viewbox-next-icon" viewBox="0 0 50 50"><path d="M22.7 34.7l-1.4-1.4 8.3-8.3-8.3-8.3 1.4-1.4 9.7 9.7z"/></symbol><symbol id="viewbox-full-screen-icon" viewBox="0 0 50 50"><path d="M8.242 11.387v9.037h2.053v-6.986h9.197v-2.051H8.242zm22.606 0v2.05h9.367v6.987h2.05v-9.037H30.849zM8.242 29.747v8.866h11.25v-2.05h-9.197v-6.817H8.242zm31.973 0v6.816h-9.367v2.05h11.418v-8.867h-2.051z"/></symbol></svg>');
 	
 	
 	$container.bind('viewbox.open',function(event,target){
@@ -69,6 +70,10 @@
 				state = false;
 			});
 		};
+	});
+
+	$container.bind('viewbox.fullscreen',function(event){
+		get('content').find('.viewbox-image').get(0).mozRequestFullScreen();
 	});
 	
 	function show($e){
@@ -139,7 +144,8 @@
 	};
 	
 	function isImage(href){
-		return href.match(/(png|jpg|jpeg|gif)(\?.*)?$/i);
+		if(href)
+			return href.match(/(png|jpg|jpeg|gif)(\?.*)?$/i);
 	};
 	
 	function isAnchor(href){
@@ -311,6 +317,19 @@
 			$container.trigger('viewbox.prev');
 		});
 	};
+
+	if(options.fullscreenButton){
+		var $fullScreenBtn = addSvgButton('full-screen').click(function(event){
+			event.stopPropagation();
+			$container.trigger('viewbox.fullscreen');
+		});
+		$container.on('viewbox.open',function(viewbox,target){
+			if(isImage($(target).attr('href')))
+				$fullScreenBtn.show();
+			else
+				$fullScreenBtn.hide();
+		});
+	}
 	
 	if(options.closeOnSideClick){
 		$container.click(function(){

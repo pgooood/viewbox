@@ -63,6 +63,7 @@ $(function(){
 		,openDuration: 200
 		,closeDuration: 200
 		,closeButton: true
+		,fullscreenButton: false
 		,navButtons: true
 		,closeOnSideClick: true
 		,nextOnContentClick: false

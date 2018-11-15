@@ -70,10 +70,10 @@
 			</a></p>
 			<p>&nbsp;</p>
 			
-			<p>Start by including the ViewBox CSS and Javascript</p>
+			<p>Start by including the ViewBox CSS and Javascript. Requires jQuery 1.12.0 or higher (dosen't work with the <em>slim build</em>).</p>
 			<pre class="prettyprint">
 &lt;link rel="stylesheet" href="viewbox.css"&gt;
-&lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"&gt;&lt;/script&gt;
 &lt;script src="jquery.viewbox.min.js"&gt;&lt;/script&gt;</pre>
 			
 			<h2>Viewbox as Image Viewer</h2>
@@ -149,6 +149,7 @@ $(function(){
 		openDuration: 200,
 		closeDuration: 200,
 		closeButton: true,
+		fullscreenButton: false,
 		navButtons: true,
 		closeOnSideClick: true,
 		nextOnContentClick: false,
@@ -194,7 +195,7 @@ $(function(){
 		$(function(){
 			
 			$('.thumbnail').viewbox();
-			$('.thumbnail-2').viewbox();
+			$('.thumbnail-2').viewbox({fullscreenButton: true});
 
 			(function(){
 				var vb = $('.popup-link').viewbox();
