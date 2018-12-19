@@ -9,10 +9,10 @@ $(function(){
 <a href="images/i1.jpg" class="thumbnail">
 	<img src="images/i1.jpg" alt="">
 </a>
-<a href="images/i2.jpg" class="thumbnail" title="Image Title">
+<a href="images/i2.jpg" class="thumbnail" title="Image 2 title">
 	<img src="images/i2.jpg" alt="">
 </a>
-<a href="images/i3.jpg" class="thumbnail">
+<a href="images/i3.jpg" class="thumbnail" data-viewbox-title="Image 3 title">
 	<img src="images/i3.jpg" alt="">
 </a>
 ```

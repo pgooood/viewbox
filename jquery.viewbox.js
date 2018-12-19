@@ -90,7 +90,7 @@
 		if(locked) return;
 		putBackPopupContent();
 		var href = $e.attr('href')
-			,caption = options.setTitle && $e.attr('title') ? $e.attr('title') : '';
+			,caption = options.setTitle ? $e.data('viewbox-title') || $e.attr('title') : '';
 		if(!href){
 			$current = $e;
 			showPopup($e,caption);
