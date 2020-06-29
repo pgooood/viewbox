@@ -23,6 +23,7 @@
 		,closeOnSideClick: true
 		,nextOnContentClick: false
 		,useGestures: true
+		,imageExt: ['png','jpg','jpeg','webp','gif']
 	},options);
 	
 	var $links = $(this)
@@ -107,10 +108,15 @@
 		var $body = get('body')
 			,$content = get('content')
 			,$header = get('header')
+			,$footer = get('footer')
 			,w,h;
 		if(width){
 			$content.width(width);
 			$header.width(width);
+			$footer.width(width);
+		}else if(!state){
+			$header.width(1);
+			$footer.width(1);
 		}
 		if(height)
 			$content.height(height);
@@ -154,8 +160,8 @@
 	};
 	
 	function isImage(href){
-		if(href)
-			return href.match(/(png|jpg|jpeg|gif)(\?.*)?$/i);
+		if(href && $.isArray(options.imageExt) && options.imageExt.length)
+			return href.match(new RegExp('('+options.imageExt.join('|')+')(\\?.*)?$','i'));
 	};
 	
 	function isAnchor(href){
@@ -207,36 +213,41 @@
 		}
 	};
 	
-	function showImage(href,caption){
+	function showImage(href,caption,footer){
 		var $img = $('<img class="viewbox-image" alt="">').attr('src',href);
 		if(!isImageLoaded($img))
 			loader(true);
+		set('header',caption);
 		set('content','');
-		set('header','');
-		openWindow();
+		set('footer',footer);
 		var $body = get('body')
 			,counter = 0
 			,$content = get('content')
 			,$header = get('header')
-			,timerId = window.setInterval(function(){
+			,$footer = get('footer')
+			,hasHeader = Boolean(jQuery.type(caption) === 'string' && caption.length)
+			,hasFooter = Boolean(jQuery.type(footer) === 'string' && footer.length);
+		$header.toggle(hasHeader);
+		$footer.toggle(hasFooter);
+		openWindow();
+		var timerId = window.setInterval(function(){
 				if(!isImageLoaded($img) && counter < 1000){
 					counter++;
 					return;
 				};
-
 				window.clearInterval(timerId);
 				loader(false);
-
 				$('body').append($img);
-
-				$header.hide();
 
 				var wOffset = $body.width() - $content.width() + options.margin*2
 					,hOffset = $body.height() - $content.height() + options.margin*2
+					,headerHeight = hasHeader ? $header.outerHeight(): 0
+					,footerHeight = hasFooter ? $footer.outerHeight() : 0
 					,windowWidth = $(window).width() - wOffset
-					,windowHeight = $(window).height() - hOffset
+					,windowHeight = $(window).height() - hOffset - headerHeight - footerHeight
 					,w = $img.width()
 					,h = $img.height();
+				
 				$img.detach();
 
 				if(w > windowWidth){
@@ -248,20 +259,22 @@
 					h = windowHeight;
 				};
 				locked = true;
+				$header.add($footer).animate(
+					{width: w}
+					,options.resizeDuration
+				);
+				$content.animate(
+					{width: w,height: h}
+					,options.resizeDuration
+				);
 				$body.animate(
 					{
 						'margin-left': -(w + wOffset)/2 + options.margin
 						,'margin-top': -(h + hOffset)/2 + options.margin
 					}
 					,options.resizeDuration
-				);
-				$content.animate(
-					{width: w,height: h}
-					,options.resizeDuration
 					,function(){
 						$content.append($img);
-						$header.show().width(w);
-						set('header',caption);
 						locked = false;
 					}
 				);
@@ -339,7 +352,7 @@
 			else
 				$fullScreenBtn.hide();
 		});
-	}
+	};
 	
 	if(options.closeOnSideClick){
 		$container.click(function(){

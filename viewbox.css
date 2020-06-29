@@ -8,6 +8,8 @@
 	z-index: 700;
 }
 .viewbox-body{
+	display: flex;
+	flex-direction: column;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -21,7 +23,12 @@
 	overflow: auto;
 }
 .viewbox-header{
-	margin: 10px;
+	padding: 10px 0 0;
+	margin: 0 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	max-width: 100%;
 }
 .viewbox-content{
 	margin: 10px;
@@ -29,7 +36,12 @@
 	height: 300px;
 }
 .viewbox-footer{
-	margin: 10px;
+	padding: 0 0 10px;
+	margin: 0 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	max-width: 100%;
 }
 .viewbox-content .viewbox-image{
 	width: 100%;

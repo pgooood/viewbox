@@ -68,6 +68,7 @@ $(function(){
 		,closeOnSideClick: true
 		,nextOnContentClick: false
 		,useGestures: true
+		,imageExt: ['png','jpg','jpeg','webp','gif'] //to determine if a target url is an image file
 	});
 });
 ```
