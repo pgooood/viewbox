@@ -117,7 +117,6 @@
 
 /* loader */
 .viewbox-container .loader{
-	widows: 100%;
 	position: absolute;
 	left: 50%;
 	top: 50%;
